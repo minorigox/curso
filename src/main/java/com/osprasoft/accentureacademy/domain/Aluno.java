@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -13,8 +12,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 
 @Entity
@@ -34,11 +31,7 @@ public class Aluno implements Serializable {
     @ManyToMany(mappedBy = "alunos")
     private List < Curso > cursos = new ArrayList<>();
 
-    public Aluno(Integer id, String nome, String email, Date dataCadastro) {
-        this.id = id;
-        this.nome = nome;
-        this.email = email;
-        this.dataCadastro = dataCadastro;
+    public Aluno() {
     }
     
     @Override

@@ -34,11 +34,7 @@ public class Curso implements Serializable {
     @JoinTable(name = "INSCRICAO_ID", joinColumns = @JoinColumn(name = "curso_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id"))
     private List < Aluno > alunos = new ArrayList<>();
 
-    public Curso (Integer id, String nome, String descricao, Date dataCriacao) {
-        this.id = id;
-        this.nome = nome;
-        this.descricao = descricao;
-        this.dataCriacao = dataCriacao;        
+    public Curso() {
     }
 
     @Override

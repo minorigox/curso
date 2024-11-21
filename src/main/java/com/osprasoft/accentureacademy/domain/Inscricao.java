@@ -31,6 +31,9 @@ public class Inscricao implements Serializable {
     @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataInscricao;
 
+    public Inscricao() {
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

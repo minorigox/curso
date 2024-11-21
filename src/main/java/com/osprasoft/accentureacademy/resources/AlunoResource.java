@@ -1,21 +1,22 @@
 package com.osprasoft.accentureacademy.resources;
 
+import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.osprasoft.accentureacademy.domain.Aluno;
 import com.osprasoft.accentureacademy.dto.AlunoDTO;
 import com.osprasoft.accentureacademy.dto.util.InscricaoPopulator;
-import com.osprasoft.accentureacademy.repositories.AlunoRepository;
 import com.osprasoft.accentureacademy.services.AlunoService;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping(value = "/alunos")
@@ -25,24 +26,24 @@ public class AlunoResource {
     private AlunoService service;
 
     @Autowired
-    private AlunoRepository repo;
+    private InscricaoPopulator populador;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity < AlunoDTO > find(@PathVariable Integer id) {
-        Aluno obj = service.buscar(id);
-        return ResponseEntity.ok().body(new AlunoDTO(obj));
+        AlunoDTO alunoDTO = populador.converterAlunoParaDto(service.buscarPorId(id));
+        return ResponseEntity.ok().body(alunoDTO);
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public ResponseEntity < List < AlunoDTO >> listar() {
-        List < Aluno > lista = service.listar();
-        List < AlunoDTO > listaDTO = InscricaoPopulator.converteListaParaAlunoDTO(lista);
+    public ResponseEntity < List < AlunoDTO >> findAll() {
+        List < AlunoDTO > listaDTO = service.listar().stream().map(obj -> populador.converterAlunoParaDto(obj)).collect(Collectors.toList());
         return ResponseEntity.ok().body(listaDTO);
     }
 
-    @PostMapping
-    public ResponseEntity < Aluno > inscrever(@RequestParam String nome, @RequestParam String email) {
-        Aluno aluno = new Aluno(null, nome, email, null);
-        return ResponseEntity.ok(repo.save(aluno));
+    @RequestMapping(method = RequestMethod.POST)
+    public ResponseEntity < Void > insert(@Valid @RequestBody AlunoDTO objDTO) {
+        AlunoDTO alunoDTO = populador.converterAlunoParaDto(service.cadastrarAluno(objDTO));
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path( "/{id}").buildAndExpand(alunoDTO.getId()).toUri();
+        return ResponseEntity.created(uri).build();  
     }
 }

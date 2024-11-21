@@ -1,12 +1,12 @@
 package com.osprasoft.accentureacademy.services;
 
-import java.util.Optional;
+import java.util.List;
 
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.osprasoft.accentureacademy.domain.Inscricao;
+import com.osprasoft.accentureacademy.dto.InscricaoDTO;
 import com.osprasoft.accentureacademy.repositories.InscricaoRepository;
 
 @Service
@@ -15,9 +15,25 @@ public class InscricaoService {
     @Autowired
     private InscricaoRepository repo;
 
-    public Inscricao buscar(Integer id) {
-        Optional < Inscricao > obj = repo.findById(id);
-        return obj.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado! ID: ", id));
+    @Autowired
+    private AlunoService alunoService;
+
+    @Autowired
+    private CursoService cursoService;
+
+    public Inscricao inscrever(InscricaoDTO dto) {
+        Inscricao inscricao = new Inscricao();
+        inscricao.setAluno(alunoService.buscarPorId(dto.getAluno_id()));
+        inscricao.setCurso(cursoService.buscarPorId(dto.getCurso_id()));
+        return repo.save(inscricao);
+    }
+
+    public List < Inscricao > listarCursosPorAluno(Integer alunoId) {
+        return repo.findCursosByAlunoId(alunoId);
+    }
+
+    public List < Inscricao > listarAlunosPorCurso(Integer cursoId) {
+        return repo.findAlunosByCursoId(cursoId);
     }
 
 }

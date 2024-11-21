@@ -1,57 +1,49 @@
 package com.osprasoft.accentureacademy.resources;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.osprasoft.accentureacademy.domain.Aluno;
-import com.osprasoft.accentureacademy.domain.Curso;
-import com.osprasoft.accentureacademy.domain.Inscricao;
-import com.osprasoft.accentureacademy.repositories.InscricaoRepository;
-import com.osprasoft.accentureacademy.services.AlunoService;
-import com.osprasoft.accentureacademy.services.CursoService;
+import com.osprasoft.accentureacademy.dto.AlunoDTO;
+import com.osprasoft.accentureacademy.dto.CursoDTO;
+import com.osprasoft.accentureacademy.dto.InscricaoDTO;
+import com.osprasoft.accentureacademy.dto.util.InscricaoPopulator;
+import com.osprasoft.accentureacademy.services.InscricaoService;
 
 @RestController
 @RequestMapping(value = "/inscricao")
 public class InscricaoResource {
   
     @Autowired
-    private InscricaoRepository repo;
+    private InscricaoService service;
 
     @Autowired
-    private AlunoService alunoService;
-
-    @Autowired
-    private CursoService cursoService;
+    private InscricaoPopulator populador;
 
     @PostMapping
-    public ResponseEntity < Inscricao > inscrever(@RequestParam Integer alunoId, @RequestParam Integer cursoId) {
-        Aluno aluno = alunoService.buscar(alunoId);
-        Curso curso = cursoService.buscar(cursoId);
-        Inscricao inscricao = new Inscricao();
-        inscricao.setAluno(aluno);
-        inscricao.setCurso(curso);
-        return ResponseEntity.ok(repo.save(inscricao));
+    public ResponseEntity < Void > inscrever(@RequestBody InscricaoDTO dto) {
+        service.inscrever(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
     @GetMapping("/alunos/{alunoId}")
-    public ResponseEntity < List < Curso >> listarCursosAluno(@PathVariable Integer alunoId) {
-        List < Inscricao > inscricoes = repo.findCursosByAlunoId(alunoId);
-        List < Curso > cursos = inscricoes.stream().map(Inscricao::getCurso).toList();
-        return ResponseEntity.ok(cursos);
+    public ResponseEntity < List < CursoDTO >> listarCursosPorAluno(@PathVariable Integer alunoId) {
+        List < CursoDTO > cursosDTO = service.listarCursosPorAluno(alunoId).stream().map(obj -> populador.converterCursoParaDto(obj.getCurso())).collect(Collectors.toList());
+        return ResponseEntity.ok(cursosDTO);
     }
 
     @GetMapping("/cursos/{cursoId}")
-    public ResponseEntity < List < Aluno >> listarAlunosCurso(@PathVariable Integer cursoId) {
-        List < Inscricao > inscricoes = repo.findAlunosByCursoId(cursoId);
-        List < Aluno > alunos = inscricoes.stream().map(Inscricao::getAluno).toList();
-        return ResponseEntity.ok(alunos);
+    public ResponseEntity < List < AlunoDTO >> listarAlunosCurso(@PathVariable Integer cursoId) {
+        List < AlunoDTO > alunosDTO = service.listarAlunosPorCurso(cursoId).stream().map(obj -> populador.converterAlunoParaDto(obj.getAluno())).collect(Collectors.toList());
+        return ResponseEntity.ok(alunosDTO);
     }
 }

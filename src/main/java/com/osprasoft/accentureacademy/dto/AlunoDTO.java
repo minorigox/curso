@@ -5,8 +5,6 @@ import java.util.Date;
 
 import org.hibernate.validator.constraints.Length;
 
-import com.osprasoft.accentureacademy.domain.Aluno;
-
 import jakarta.validation.constraints.NotEmpty;
 
 public class AlunoDTO implements Serializable {
@@ -21,11 +19,7 @@ public class AlunoDTO implements Serializable {
     private String email;
     private Date dataCadastro;
     
-    public AlunoDTO(Aluno aluno) {
-        this.id = aluno.getId();
-        this.nome = aluno.getNome();
-        this.email = aluno.getEmail();
-        this.dataCadastro = aluno.getDataCadastro();
+    public AlunoDTO() {
     }
 
     public Integer getId() {
