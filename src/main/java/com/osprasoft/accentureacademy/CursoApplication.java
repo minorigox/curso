@@ -1,4 +1,4 @@
-package com.osprasoft.faculdade;
+package com.osprasoft.accentureacademy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
