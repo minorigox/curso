@@ -1,0 +1,21 @@
+package com.osprasoft.accentureacademy.services;
+
+import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.osprasoft.accentureacademy.domain.Aluno;
+import com.osprasoft.accentureacademy.repositories.AlunoRepository;
+
+@Service
+public class AlunoService {
+    
+    @Autowired
+    private AlunoRepository repo;
+
+    public Aluno buscar(Integer id) {
+        Optional < Aluno > obj = repo.findById(id);
+        return obj.orElse(null);
+    }
+}
