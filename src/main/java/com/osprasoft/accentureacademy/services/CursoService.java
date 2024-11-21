@@ -1,5 +1,6 @@
 package com.osprasoft.accentureacademy.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.hibernate.ObjectNotFoundException;
@@ -15,8 +16,12 @@ public class CursoService {
     @Autowired
     private CursoRepository repo;
 
-    public Curso find(Integer id) {
+    public Curso buscar(Integer id) {
         Optional < Curso > obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado! ID: ", id));
-    }    
+    }
+
+    public List < Curso > listar() {
+        return repo.findAll();
+    }
 }

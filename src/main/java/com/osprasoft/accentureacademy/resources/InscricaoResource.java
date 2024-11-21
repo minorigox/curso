@@ -14,8 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.osprasoft.accentureacademy.domain.Aluno;
 import com.osprasoft.accentureacademy.domain.Curso;
 import com.osprasoft.accentureacademy.domain.Inscricao;
-import com.osprasoft.accentureacademy.repositories.AlunoRepository;
-import com.osprasoft.accentureacademy.repositories.CursoRepository;
 import com.osprasoft.accentureacademy.repositories.InscricaoRepository;
 import com.osprasoft.accentureacademy.services.AlunoService;
 import com.osprasoft.accentureacademy.services.CursoService;
@@ -35,8 +33,8 @@ public class InscricaoResource {
 
     @PostMapping
     public ResponseEntity < Inscricao > inscrever(@RequestParam Integer alunoId, @RequestParam Integer cursoId) {
-        Aluno aluno = alunoService.find(alunoId);
-        Curso curso = cursoService.find(cursoId);
+        Aluno aluno = alunoService.buscar(alunoId);
+        Curso curso = cursoService.buscar(cursoId);
         Inscricao inscricao = new Inscricao();
         inscricao.setAluno(aluno);
         inscricao.setCurso(curso);
@@ -44,15 +42,15 @@ public class InscricaoResource {
     }
 
     @GetMapping("/alunos/{alunoId}")
-    public ResponseEntity < List<Curso > > listarCursosAluno(@PathVariable Integer alunoId) {
-        List < Inscricao > inscricoes = repo.findAlunoById(alunoId);
+    public ResponseEntity < List < Curso >> listarCursosAluno(@PathVariable Integer alunoId) {
+        List < Inscricao > inscricoes = repo.findCursosByAlunoId(alunoId);
         List < Curso > cursos = inscricoes.stream().map(Inscricao::getCurso).toList();
         return ResponseEntity.ok(cursos);
     }
 
     @GetMapping("/cursos/{cursoId}")
-    public ResponseEntity < List < Aluno > > listarAlunosCurso(@PathVariable Integer cursoId) {
-        List < Inscricao > inscricoes = repo.findCursoById(cursoId);
+    public ResponseEntity < List < Aluno >> listarAlunosCurso(@PathVariable Integer cursoId) {
+        List < Inscricao > inscricoes = repo.findAlunosByCursoId(cursoId);
         List < Aluno > alunos = inscricoes.stream().map(Inscricao::getAluno).toList();
         return ResponseEntity.ok(alunos);
     }

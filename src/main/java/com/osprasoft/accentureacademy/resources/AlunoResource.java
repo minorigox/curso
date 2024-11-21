@@ -1,7 +1,5 @@
 package com.osprasoft.accentureacademy.resources;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.osprasoft.accentureacademy.domain.Aluno;
+import com.osprasoft.accentureacademy.dto.AlunoDTO;
+import com.osprasoft.accentureacademy.dto.util.InscricaoPopulator;
 import com.osprasoft.accentureacademy.repositories.AlunoRepository;
 import com.osprasoft.accentureacademy.services.AlunoService;
 
@@ -28,17 +28,16 @@ public class AlunoResource {
     private AlunoRepository repo;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity < Aluno > find(@PathVariable Integer id) {
-        Aluno obj = service.find(id);
-        return ResponseEntity.ok().body(obj);
+    public ResponseEntity < AlunoDTO > find(@PathVariable Integer id) {
+        Aluno obj = service.buscar(id);
+        return ResponseEntity.ok().body(new AlunoDTO(obj));
     }
     
     @RequestMapping(method = RequestMethod.GET)
-    public List < Aluno > listar() {
-        Aluno a1 = new Aluno(1, "Pedro de Lara", "pedrodelara@ig.com.br", new Date());
-        List < Aluno > lista = new ArrayList<>();
-        lista.add(a1);
-        return lista;
+    public ResponseEntity < List < AlunoDTO >> listar() {
+        List < Aluno > lista = service.listar();
+        List < AlunoDTO > listaDTO = InscricaoPopulator.converteListaParaAlunoDTO(lista);
+        return ResponseEntity.ok().body(listaDTO);
     }
 
     @PostMapping
