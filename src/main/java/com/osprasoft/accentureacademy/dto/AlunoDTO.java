@@ -11,7 +11,7 @@ public class AlunoDTO implements Serializable {
     private String nome;
     private String email;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private Date dataCadastro;
     
     public AlunoDTO() {

@@ -11,7 +11,7 @@ public class CursoDTO implements Serializable {
     private String nome;
     private String descricao;
 
-    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
     private Date dataCriacao;
 
     public CursoDTO() {
