@@ -1,11 +1,20 @@
 package com.osprasoft.accentureacademy.domain;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 public class Curso implements Serializable {
@@ -16,7 +25,14 @@ public class Curso implements Serializable {
     private Integer id;
     private String nome;
     private String descricao;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataCriacao;
+
+    @JsonBackReference
+    @ManyToMany
+    @JoinTable(name = "INSCRICAO_ID", joinColumns = @JoinColumn(name = "curso_id"), inverseJoinColumns = @JoinColumn(name = "aluno_id"))
+    private List < Aluno > alunos = new ArrayList<>();
 
     public Curso (Integer id, String nome, String descricao, Date dataCriacao) {
         this.id = id;

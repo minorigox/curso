@@ -7,11 +7,14 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.osprasoft.accentureacademy.domain.Aluno;
+import com.osprasoft.accentureacademy.repositories.AlunoRepository;
 import com.osprasoft.accentureacademy.services.AlunoService;
 
 @RestController
@@ -20,6 +23,9 @@ public class AlunoResource {
 
     @Autowired
     private AlunoService service;
+
+    @Autowired
+    private AlunoRepository repo;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public ResponseEntity < ? > find(@PathVariable Integer id) {
@@ -33,5 +39,11 @@ public class AlunoResource {
         List < Aluno > lista = new ArrayList<>();
         lista.add(a1);
         return lista;
+    }
+
+    @PostMapping
+    public ResponseEntity < Aluno > inscrever(@RequestParam String nome, @RequestParam String email) {
+        Aluno aluno = new Aluno(null, nome, email, null);
+        return ResponseEntity.ok(repo.save(aluno));
     }
 }

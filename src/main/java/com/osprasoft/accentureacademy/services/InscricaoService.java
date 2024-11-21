@@ -6,17 +6,18 @@ import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.osprasoft.accentureacademy.domain.Curso;
-import com.osprasoft.accentureacademy.repositories.CursoRepository;
+import com.osprasoft.accentureacademy.domain.Inscricao;
+import com.osprasoft.accentureacademy.repositories.InscricaoRepository;
 
 @Service
-public class CursoService {
-    
-    @Autowired
-    private CursoRepository repo;
+public class InscricaoService {
 
-    public Curso buscar(Integer id) {
-        Optional < Curso > obj = repo.findById(id);
+    @Autowired
+    private InscricaoRepository repo;
+
+    public Inscricao buscar(Integer id) {
+        Optional < Inscricao > obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado! ID: ", id));
-    }    
+    }
+
 }

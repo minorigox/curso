@@ -2,6 +2,7 @@ package com.osprasoft.accentureacademy.services;
 
 import java.util.Optional;
 
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +17,6 @@ public class AlunoService {
 
     public Aluno buscar(Integer id) {
         Optional < Aluno > obj = repo.findById(id);
-        return obj.orElse(null);
+        return obj.orElseThrow(() -> new ObjectNotFoundException("Aluno não encontrado! ID: ", id));
     }
 }
