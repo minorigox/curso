@@ -3,24 +3,18 @@ package com.osprasoft.accentureacademy.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import jakarta.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class InscricaoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
-
-    @NotEmpty(message = "Preenchimento obrigatório.")
     private Integer aluno_id;
-
-    @NotEmpty(message = "Preenchimento obrigatório.")
     private Integer curso_id;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataInscricao;
 
-    public InscricaoDTO(Integer id, Integer aluno_id, Integer curso_id, Date dataInscricao) {
-        this.id = id;
-        this.aluno_id = aluno_id;
-        this.curso_id = curso_id;
-        this.dataInscricao = dataInscricao;
+    public InscricaoDTO() {
     }
 
     public Integer getId() {

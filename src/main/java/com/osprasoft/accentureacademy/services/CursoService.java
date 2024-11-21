@@ -1,5 +1,6 @@
 package com.osprasoft.accentureacademy.services;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class CursoService {
     }
 
     public Curso cadastrarCurso(CursoDTO objDTO) {
+        objDTO.setDataCriacao(new Date());
         Curso curso = populador.converterDtoParaCurso(objDTO);
         return repo.save(curso);
     }

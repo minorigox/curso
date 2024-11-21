@@ -10,6 +10,6 @@ import com.osprasoft.accentureacademy.domain.Inscricao;
 @Repository
 public interface InscricaoRepository extends JpaRepository < Inscricao, Integer > {
 
-    List < Inscricao > findCursosByAlunoId(Integer alunoId);
-    List < Inscricao > findAlunosByCursoId(Integer cursoId);
+    List < Inscricao > findByAlunoId(Integer alunoId);
+    List < Inscricao > findByCursoId(Integer cursoId);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.osprasoft.accentureacademy.dto.AlunoDTO;
@@ -35,13 +36,13 @@ public class InscricaoResource {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/alunos/{alunoId}")
+    @RequestMapping(value = "/aluno/{alunoId}", method = RequestMethod.GET)
     public ResponseEntity < List < CursoDTO >> listarCursosPorAluno(@PathVariable Integer alunoId) {
         List < CursoDTO > cursosDTO = service.listarCursosPorAluno(alunoId).stream().map(obj -> populador.converterCursoParaDto(obj.getCurso())).collect(Collectors.toList());
         return ResponseEntity.ok(cursosDTO);
     }
 
-    @GetMapping("/cursos/{cursoId}")
+    @RequestMapping(value = "/curso/{cursoId}", method = RequestMethod.GET)
     public ResponseEntity < List < AlunoDTO >> listarAlunosCurso(@PathVariable Integer cursoId) {
         List < AlunoDTO > alunosDTO = service.listarAlunosPorCurso(cursoId).stream().map(obj -> populador.converterAlunoParaDto(obj.getAluno())).collect(Collectors.toList());
         return ResponseEntity.ok(alunosDTO);

@@ -22,7 +22,7 @@ import jakarta.validation.Valid;
 @RequestMapping(value = "/cursos")
 public class CursoResource {
 
-    @Autowired
+    @Autowired  
     private CursoService service;
 
     @Autowired
@@ -41,9 +41,8 @@ public class CursoResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity < CursoDTO > insert(@Valid @RequestBody CursoDTO objDTO) {
+    public ResponseEntity < CursoDTO > cadastrarCurso(@Valid @RequestBody CursoDTO objDTO) {
         CursoDTO cursoDTO = populador.converterCursoParaDto(service.cadastrarCurso(objDTO));
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path( "/{id}").buildAndExpand(cursoDTO.getId()).toUri();
-        return ResponseEntity.created(uri).build();  
+        return ResponseEntity.ok(cursoDTO);
     }
 }

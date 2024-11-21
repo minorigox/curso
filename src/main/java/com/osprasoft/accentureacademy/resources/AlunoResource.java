@@ -41,9 +41,8 @@ public class AlunoResource {
     }
 
     @RequestMapping(method = RequestMethod.POST)
-    public ResponseEntity < Void > insert(@Valid @RequestBody AlunoDTO objDTO) {
+    public ResponseEntity < AlunoDTO > insert(@Valid @RequestBody AlunoDTO objDTO) {
         AlunoDTO alunoDTO = populador.converterAlunoParaDto(service.cadastrarAluno(objDTO));
-        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path( "/{id}").buildAndExpand(alunoDTO.getId()).toUri();
-        return ResponseEntity.created(uri).build();  
+        return ResponseEntity.ok(alunoDTO);  
     }
 }

@@ -3,20 +3,15 @@ package com.osprasoft.accentureacademy.dto;
 import java.io.Serializable;
 import java.util.Date;
 
-import org.hibernate.validator.constraints.Length;
-
-import jakarta.validation.constraints.NotEmpty;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 public class AlunoDTO implements Serializable {
     private static final long serialVersionUID = 1L;
     private Integer id;
-
-    @NotEmpty(message = "Preenchimento obrigatório.")
-    @Length(min = 3, max = 80, message = "O tamanho deve ser entre 3 e 80 caracteres.")
     private String nome;
-
-    @NotEmpty(message = "Preenchimento obrigatório.")
     private String email;
+
+    @JsonFormat(pattern = "dd/MM/yyyy HH:mm")
     private Date dataCadastro;
     
     public AlunoDTO() {
