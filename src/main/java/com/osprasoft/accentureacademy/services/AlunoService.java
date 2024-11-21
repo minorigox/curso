@@ -15,7 +15,7 @@ public class AlunoService {
     @Autowired
     private AlunoRepository repo;
 
-    public Aluno buscar(Integer id) {
+    public Aluno find(Integer id) {
         Optional < Aluno > obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Aluno não encontrado! ID: ", id));
     }

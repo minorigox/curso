@@ -28,8 +28,8 @@ public class AlunoResource {
     private AlunoRepository repo;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity < ? > find(@PathVariable Integer id) {
-        Aluno obj = service.buscar(id);
+    public ResponseEntity < Aluno > find(@PathVariable Integer id) {
+        Aluno obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
     

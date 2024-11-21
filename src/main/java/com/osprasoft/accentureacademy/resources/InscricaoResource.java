@@ -35,8 +35,8 @@ public class InscricaoResource {
 
     @PostMapping
     public ResponseEntity < Inscricao > inscrever(@RequestParam Integer alunoId, @RequestParam Integer cursoId) {
-        Aluno aluno = alunoService.buscar(alunoId);
-        Curso curso = cursoService.buscar(cursoId);
+        Aluno aluno = alunoService.find(alunoId);
+        Curso curso = cursoService.find(cursoId);
         Inscricao inscricao = new Inscricao();
         inscricao.setAluno(aluno);
         inscricao.setCurso(curso);

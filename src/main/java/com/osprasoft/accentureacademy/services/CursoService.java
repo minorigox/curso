@@ -15,7 +15,7 @@ public class CursoService {
     @Autowired
     private CursoRepository repo;
 
-    public Curso buscar(Integer id) {
+    public Curso find(Integer id) {
         Optional < Curso > obj = repo.findById(id);
         return obj.orElseThrow(() -> new ObjectNotFoundException("Curso não encontrado! ID: ", id));
     }    

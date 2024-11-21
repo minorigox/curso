@@ -22,8 +22,8 @@ public class CursoResource {
     private CursoService service;
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public ResponseEntity < ? > find(@PathVariable Integer id) {
-        Curso obj = service.buscar(id);
+    public ResponseEntity < Curso > find(@PathVariable Integer id) {
+        Curso obj = service.find(id);
         return ResponseEntity.ok().body(obj);
     }
     
