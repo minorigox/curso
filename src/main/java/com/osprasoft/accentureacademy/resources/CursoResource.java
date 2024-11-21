@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.osprasoft.accentureacademy.domain.Aluno;
+import com.osprasoft.accentureacademy.domain.Curso;
 
 @RestController
-@RequestMapping(value = "/alunos")
-public class AlunoResource {
+@RequestMapping(value = "/cursos")
+public class CursoResource {
     
     @RequestMapping(method = RequestMethod.GET)
-    public List < Aluno > listar() {
-        Aluno a1 = new Aluno(1, "Pedro de Lara", "pedrodelara@ig.com.br", new Date());
-        List < Aluno > lista = new ArrayList<>();
+    public List < Curso > listar() {
+        Curso a1 = new Curso(1, "SAP Commerce", "Curso de SAP Commerce", new Date());
+        List < Curso > lista = new ArrayList<>();
         lista.add(a1);
         return lista;
     }
